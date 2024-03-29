@@ -21,7 +21,7 @@ class AutomataPerro:
             Q: set = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6'},
             sigma: set = {'p', 'e', 'r', 'o', 'a'},
             q0: str = 'q0',
-            F: set = {'q5'},
+            F: set = {'q5', 'q6'},
             delta: Callable = delta_perro
     ):
         # Inicialización de los atributos del autómata específico para "perro" o "perrooooo"
