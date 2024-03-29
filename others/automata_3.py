@@ -53,7 +53,7 @@ def d_reconocer_binario(cinta: str, automata: object) -> bool:
 
 
 automata_perro = AutomataClase()
-cinta_perro = "100000001111"
+cinta_perro = "01101110101010"
 
 if d_reconocer_binario(cinta_perro, automata_perro):
     print("La cadena es aceptada por el autómata.")

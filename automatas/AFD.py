@@ -1,4 +1,5 @@
 from typing import Union, Callable
+import pydot
 
 def delta_perro(q: str, i: str) -> Union[str, None]:
     # Tabla de transición para el autómata específico que acepta "perro" o "perrooooo"
@@ -53,9 +54,32 @@ def d_reconocer_perro(cinta: str, automata: object) -> bool:
 
 
 automata_perro = AutomataPerro()
-cinta_perro = "perrooooooooooooooooo"
+cinta_perro = "perrooooooooooooooooooo"
 
 if d_reconocer_perro(cinta_perro, automata_perro):
     print("La cadena es aceptada por el autómata.")
 else:
     print("La cadena no es aceptada por el autómata.")
+
+def generate_automaton_graph():
+    automaton = AutomataPerro()
+    graph = pydot.Dot(graph_type='digraph')
+    
+    for state in automaton.estados:
+        if state in automaton.estados_finales:
+            node = pydot.Node(state, shape='doublecircle')
+        else:
+            node = pydot.Node(state)
+        graph.add_node(node)
+    
+    for state in automaton.estados:
+        for symbol in automaton.alfabeto:
+            next_state = automaton(state, symbol)
+            if next_state:
+                edge = pydot.Edge(state, next_state, label=symbol)
+                graph.add_edge(edge)
+    
+    graph.write_png('automatas-img/AFD.png')
+
+
+generate_automaton_graph()
