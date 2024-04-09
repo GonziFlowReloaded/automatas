@@ -2,6 +2,17 @@ from typing import Union, Callable
 import pydot
 
 def delta_perro(q: str, i: str) -> Union[str, None]:
+    """
+    Función de transición para el autómata específico que acepta "perro" o "perrooooo".
+
+    Parámetros:
+        q (str): Estado actual del autómata.
+        i (str): Símbolo de entrada.
+
+    Devoluciones:
+        Union[str, None]: Estado siguiente del autómata si existe una transición para el símbolo de entrada,
+                           None si no hay transición definida para el estado y el símbolo de entrada.
+    """
     # Tabla de transición para el autómata específico que acepta "perro" o "perrooooo"
     tabla_de_transicion_perro = {
         ("q0", "p"): "q1",
@@ -14,6 +25,16 @@ def delta_perro(q: str, i: str) -> Union[str, None]:
     return tabla_de_transicion_perro.get((q, i), None)
 
 class AutomataPerro:
+    """
+    Clase que representa un autómata específico para reconocer la cadena "perro" o "perrooooo".
+
+    Atributos:
+        estados (set): Conjunto de estados del autómata.
+        alfabeto (set): Conjunto de símbolos del alfabeto.
+        estado_inicial (str): Estado inicial del autómata.
+        estados_finales (set): Conjunto de estados finales del autómata.
+        transicion (Callable): Función de transición del autómata.
+    """
     def __init__(
             self,
             Q: set = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5'},
@@ -22,7 +43,6 @@ class AutomataPerro:
             F: set = {'q5'},
             delta: Callable = delta_perro
     ):
-        # Inicialización de los atributos del autómata específico para "perro" o "perrooooo"
         self.estados = Q
         self.alfabeto = sigma
         self.estado_inicial = q0
@@ -30,13 +50,43 @@ class AutomataPerro:
         self.transicion = delta
     
     def __call__(self, q, i) -> Union[str, None]:
+        """
+        Método para realizar una transición en el autómata.
+
+        Parámetros:
+            q (str): Estado actual del autómata.
+            i (str): Símbolo de entrada.
+
+        Devoluciones:
+            Union[str, None]: Estado siguiente del autómata si existe una transición para el símbolo de entrada,
+                               None si no hay transición definida para el estado y el símbolo de entrada.
+        """
         return self.transicion(q, i)
     
     def es_estado_final(self, q) -> bool:
+        """
+        Comprueba si un estado dado es un estado final del autómata.
+
+        Parámetros:
+            q (str): Estado a verificar.
+
+        Devoluciones:
+            bool: True si el estado es un estado final, False en caso contrario.
+        """
         return q in self.estados_finales
     
 
-def d_reconocer_perro(cinta: str, automata: object) -> bool:
+def d_reconocer_perro(cinta: str, automata: AutomataPerro) -> bool:
+    """
+    Función que verifica si una cadena es aceptada por el autómata específico para "perro" o "perrooooo".
+
+    Parámetros:
+        cinta (str): Cadena de entrada a verificar.
+        automata (AutomataPerro): Autómata para la verificación.
+
+    Devoluciones:
+        bool: True si la cadena es aceptada por el autómata, False en caso contrario.
+    """
     indice  = 0
     estado_actual = automata.estado_inicial
     while True:
@@ -53,15 +103,10 @@ def d_reconocer_perro(cinta: str, automata: object) -> bool:
             indice += 1
 
 
-automata_perro = AutomataPerro()
-cinta_perro = "perrooooooooooooooooooo"
-
-if d_reconocer_perro(cinta_perro, automata_perro):
-    print("La cadena es aceptada por el autómata.")
-else:
-    print("La cadena no es aceptada por el autómata.")
-
 def generate_automaton_graph():
+    """
+    Genera un diagrama de grafos representando el autómata específico para "perro" o "perrooooo".
+    """
     automaton = AutomataPerro()
     graph = pydot.Dot(graph_type='digraph')
     
@@ -81,5 +126,13 @@ def generate_automaton_graph():
     
     graph.write_png('automatas-img/AFD.png')
 
+
+automata_perro = AutomataPerro()
+cinta_perro = "perrooooooooooooooooooo"
+
+if d_reconocer_perro(cinta_perro, automata_perro):
+    print("La cadena es aceptada por el autómata.")
+else:
+    print("La cadena no es aceptada por el autómata.")
 
 generate_automaton_graph()
